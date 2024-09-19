@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Student Marks</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+    /* Add this to your CSS */
+.loader {
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    border-top: 4px solid #fff;
+    width: 24px;
+    height: 24px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+</style>
+<body class="bg-gray-100">
+
+    <div class="max-w-lg mx-auto mt-10">
+        <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+            <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Upload Student Marks</h2>
+
+            <form id="uploadMarksForm" class="space-y-4">
+                <div>
+                    <label for="cnic" class="block text-gray-700 text-sm font-bold mb-2">Student CNIC:</label>
+                    <input type="text" id="cnic"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required>
+                </div>
+
+                <div>
+                    <label for="course" class="block text-gray-700 text-sm font-bold mb-2">Course:</label>
+                    <input type="text" id="course"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required>
+                </div>
+
+                <div>
+                    <label for="marks" class="block text-gray-700 text-sm font-bold mb-2">Marks:</label>
+                    <input type="number" id="marks"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required>
+                </div>
+
+                <div>
+                    <label for="totalMarks" class="block text-gray-700 text-sm font-bold mb-2">Total Marks:</label>
+                    <input type="number" id="totalMarks"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required>
+                </div>
+
+                <div>
+                    <label for="grade" class="block text-gray-700 text-sm font-bold mb-2">Grade:</label>
+                    <input type="text" id="grade"
+                        class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        required>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                        Upload Marks
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- Add this inside your form or wherever appropriate -->
+    <div id="loading" class="hidden fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50">
+        <div class="text-white text-xl">Uploading... <span class="loader"></span></div>
+    </div>
+
+
+
+    <script src="./marks.js" type="module"></script>
+</body>
+
+</html>
