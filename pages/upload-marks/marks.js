@@ -11,7 +11,13 @@ import {
 
 
 const firebaseConfig = {
-  // Firebase config here
+  apiKey: "AIzaSyBPsoQEY34AICVZ3VxD_-WsS9wNB2GUNT8",
+  authDomain: "fir-79c14.firebaseapp.com",
+  projectId: "fir-79c14",
+  storageBucket: "fir-79c14.appspot.com",
+  messagingSenderId: "1006127296948",
+  appId: "1:1006127296948:web:a86d7e0ae93ac2c57902e1",
+  measurementId: "G-WKPRE24TJ7"
 };
 
 // Initialize Firestore

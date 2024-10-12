@@ -11,7 +11,7 @@ import {
 
 
 const firebaseConfig = {
-    // Firebase config here
+    // Your firebase config here
 };
 
 // Initialize Firebase

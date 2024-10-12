@@ -7,16 +7,12 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-auth.js";
 import {
   getFirestore,
-  collection, getDocs
+  collection, getDocs, query, where, getDoc, doc
 } from "https://www.gstatic.com/firebasejs/10.12.3/firebase-firestore.js";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-//  Firebase config here
+  // Your firebase config here
 };
 
 
@@ -38,8 +34,6 @@ function init() {
     // Hide login and signup links for both desktop and mobile
     document.getElementById('loginLink').style.display = "none";
     document.getElementById('loginLinkMobile').style.display = "none";
-    document.getElementById('signupLink').style.display = "none";
-    document.getElementById('signupLinkMobile').style.display = "none";
 
     // Show logout buttons for both desktop and mobile
     document.getElementById('logoutBtn').classList.remove('hidden');
@@ -75,7 +69,7 @@ init();
 window.logout = () => {
   signOut(auth)
     .then(() => {
-      localStorage.removeItem("student"); 
+      localStorage.removeItem("student");
       location.reload();
     })
     .catch((err) => {
@@ -88,3 +82,68 @@ document.getElementById('menu-button').addEventListener('click', function () {
   const mobileMenu = document.getElementById('mobile-menu');
   mobileMenu.classList.toggle('hidden');
 });
+
+
+window.searchResult = async () => {
+  const searchInput = document.getElementById('user-cnic').value;
+  
+  if (!searchInput) {
+    console.log("Please enter a valid CNIC.");
+    return;
+  }
+  
+  let ref = collection(db, "users");
+  const q = query(ref, where("cnic", "==", searchInput));
+
+  try {
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+      querySnapshot.forEach((doc) => {
+        const student = doc.data();
+        const id = student.userId
+        console.log("User found:", student);
+        const studentInfo = document.getElementById("studentInfo");
+        studentInfo.innerHTML = `<h2 class="text-2xl font-bold my-3 text-center">${student.firstName}</h2>`
+        
+        getStudentMarks(id)
+      });
+    } else {
+      console.log("No user found with the provided CNIC.");
+    }
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+  }
+}
+
+async function getStudentMarks(userId) {
+  try {
+      const marksCollectionRef = collection(db, 'users', userId, 'marks');
+      const marksSnapshot = await getDocs(marksCollectionRef);      
+
+      if (marksSnapshot.empty) {
+          console.error('No marks found for this student.');
+          return;
+      }
+
+      marksSnapshot.forEach((doc) => {
+          const markData = doc.data();
+          renderStudentMarks(markData);
+      });
+  } catch (error) {
+      console.error('Error retrieving student marks:', error);
+  }
+}
+
+
+function renderStudentMarks(markData) {
+  const table = document.getElementById('studentMarksTableBody')
+  const row = `
+      <tr>
+          <td class="py-2 px-4 border-b border-gray-200">${markData.course}</td>
+          <td class="py-2 px-4 border-b border-gray-200">${markData.marks}</td>
+          <td class="py-2 px-4 border-b border-gray-200">${markData.totalMarks}</td>
+          <td class="py-2 px-4 border-b border-gray-200">${markData.grade}</td>
+      </tr>
+  `;
+  table.innerHTML += row;
+}
